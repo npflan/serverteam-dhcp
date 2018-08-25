@@ -28,7 +28,7 @@ print('\t algorithm hmac-md5;')
 print('\t secret LsMkrX1xprEQQBoeGAC6NvokcA/mcuD5LnBqD/2gxJEpZqTTRN7vtPm0BVW03zl0oo1qWCVrNTqsoAq2B8hrsg==;')
 print('};\n')
 
-print('subnet 10.100.128.0 netmask 255.255.192.0 {}')
+print('subnet 10.100.128.0 netmask 255.255.224.0 {}')
 
 
 for row in reader:
