@@ -28,19 +28,18 @@ print('\t algorithm hmac-md5;')
 print('\t secret LsMkrX1xprEQQBoeGAC6NvokcA/mcuD5LnBqD/2gxJEpZqTTRN7vtPm0BVW03zl0oo1qWCVrNTqsoAq2B8hrsg==;')
 print('};\n')
 
+print('subnet 10.100.128.0 netmask 255.255.192.0 {}')
+
 
 for row in reader:
-    if row[7].lower() == "Access".lower() or row[7].lower() == "Wireless".lower() or row[9].lower() == "AP-MGMT".lower():
-        if row[9].lower() == 'Wireless Networks'.lower():
-            continue;
-        print("# " + ' - '.join((n for n in (row[7], row[9]) if n)))
-        ip = ipaddress.IPv4Network(row[0])
-        parts = ip.with_netmask.split('/')
-        network = parts[0]
-        subnetmask = parts[1]
-        print("subnet " + network + " netmask " + subnetmask + " {")
-        print("\t pool {")
-        print("\t\t range " + str(ip[4]) + " " + str(ip[pow(2, (32-ip.prefixlen))-6]) + ";")
-        print("\t\t option routers " + str(ip[1]) + ";")
-        print("\t}")
-        print("}\n")
+    print("# " + ' - '.join((n for n in (row[7], row[9]) if n)))
+    ip = ipaddress.IPv4Network(row[0])
+    parts = ip.with_netmask.split('/')
+    network = parts[0]
+    subnetmask = parts[1]
+    print("subnet " + network + " netmask " + subnetmask + " {")
+    print("\t pool {")
+    print("\t\t range " + str(ip[50]) + " " + str(ip[pow(2, (32-ip.prefixlen))-6]) + ";")
+    print("\t\t option routers " + str(ip[1]) + ";")
+    print("\t}")
+    print("}\n")

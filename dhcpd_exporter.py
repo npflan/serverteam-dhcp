@@ -16,17 +16,14 @@ import time
 class DhcpdCollector(object):
     def __init__(self, leasefile='/var/lib/dhcp/dhcpd.leases'):
         print(leasefile)
-        netbox = 'https://netbox.minserver.dk/ipam/prefixes/?status=1&parent=&family=&q=&vrf=npflan&mask_length=&export'
+        netbox = 'https://netbox.minserver.dk/ipam/prefixes/?q=&within_include=&family=&mask_length=&vrf=npflan&status=1&role=server-net-dhcp&export'
         data = urllib.request.urlopen(netbox).read()
         reader = csv.reader(io.StringIO(data.decode()), delimiter=',', quotechar='|')
         subnets = []
 
         for row in reader:
-            if row[7].lower() == "Access".lower() or row[7].lower() == "Wireless".lower() or row[9].lower() == "AP-MGMT".lower():
-                if row[9].lower() == 'Wireless Networks'.lower():
-                    continue
-                # Add networks to array
-                subnets.append(IPv4Network(row[0]))
+            # Add networks to array
+            subnets.append(IPv4Network(row[0]))
         self.subnets = subnets
         self.leases = IscDhcpLeases(leasefile)
         print("dhcpd_exporter started!")
