@@ -4,18 +4,16 @@ items:
 - apiVersion: extensions/v1beta1
   kind: Deployment
   metadata:
-    name: dhcp-primary
+    name: dhcp
   spec:
     replicas: 1
     template:
       metadata:
         labels:
-          app: dhcp-primary
+          app: dhcp
       spec:
-        hostname: primary
-        subdomain: dhcp-pod
         containers:
-        - name: dhcpd
+        - name: dhcp
           image: npflan/serverteam-dhcp:latest
           volumeMounts:
             - mountPath: /var/lib/dhcp
@@ -45,34 +43,13 @@ items:
 - kind: Service
   apiVersion: v1
   metadata:
-    name: headless-primary
-  spec:
-    clusterIP: None
-    selector:
-      app: dhcp-primary
-    ports:
-      - name: dhcp-control
-        protocol: TCP
-        port: 647
-        targetPort: 647
-- kind: Service
-  apiVersion: v1
-  metadata:
-    name: dhcp-primary
+    name: dhcp
   spec:
     clusterIP: 10.100.128.2
     selector:
-      app: dhcp-primary
+      app: dhcp
     ports:
       - name: dhcp
         protocol: UDP
         port: 67
         targetPort: 67
-      - name: dhcp-control
-        protocol: TCP
-        port: 647
-        targetPort: 647
-      - name: dhcpd-exporter
-        protocol: TCP
-        port: 9405
-        targetPort: 9405

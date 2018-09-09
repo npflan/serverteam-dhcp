@@ -1,21 +1,23 @@
-FROM alpine:3.6
-
-RUN apk add --no-cache dhcp python3 ca-certificates supervisor
-
-RUN mkdir -p /dhcp/config/ \
-    && cp /etc/dhcp/dhcpd.conf.example /dhcp/config/dhcpd.conf \
-    && touch /var/lib/dhcp/dhcpd.leases
-
-ADD supervisord.conf /etc/supervisord.conf
-
+FROM alpine:3.6 AS builder
 WORKDIR /usr/src/app
 
-COPY requirements.txt ./
+RUN apk add --no-cache python3 ca-certificates
 
+COPY requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-COPY dhcpd_exporter.py .
+COPY config/isc_dhcp_config_gen.py .
+RUN python3 isc_dhcp_config_gen.py > dhcpd.conf
 
-EXPOSE 67/udp 67/tcp 647/tcp 647/udp 9405/tcp
+FROM alpine:3.6 AS runtime
+WORKDIR /usr/src/app
+RUN apk add --no-cache dhcp ca-certificates
 
-ENTRYPOINT ["supervisord", "--nodaemon", "--configuration", "/etc/supervisord.conf"]
+RUN mkdir -p /dhcp/config/ \
+    && touch /var/lib/dhcp/dhcpd.leases
+
+COPY --from=builder /usr/src/app/dhcpd.conf /dhcp/config/dhcpd.conf
+
+EXPOSE 67/udp
+
+ENTRYPOINT [ "/usr/sbin/dhcpd", "-d", "-f", "-cf", "/dhcp/config/dhcpd.conf" ]
