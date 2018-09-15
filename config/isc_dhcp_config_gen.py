@@ -71,7 +71,7 @@ for row in reader:
     print("\t\t range " + str(ip[50]) + " " + str(ip[pow(2, (32-ip.prefixlen))-50]) + ";")
     print("\t\t option routers " + str(ip[1]) + ";")
     print('\t\t option domain-name "'+row['description']+'";\n')
-    print('\t\t next-server "serverteam-pxe.default.k8s.server.npf";\n')
+    print('\t\t next-server serverteam-pxe.default.svc.npf.dk;\n')
     print('\t\t filename "pxelinux.0";\n')
     print("\t}")
     print("}\n")
