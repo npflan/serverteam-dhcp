@@ -17,7 +17,7 @@ RUN mkdir -p /dhcp/config/ \
     && touch /var/lib/dhcp/dhcpd.leases
 
 COPY --from=builder /usr/src/app/dhcpd.conf /dhcp/config/dhcpd.conf
-
+COPY config/reservation.ip.*.conf /dhcp/config/
 EXPOSE 67/udp
 
 ENTRYPOINT [ "/usr/sbin/dhcpd", "-d", "-f", "-cf", "/dhcp/config/dhcpd.conf" ]

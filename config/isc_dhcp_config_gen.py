@@ -73,5 +73,6 @@ for row in reader:
     print('\t\t option domain-name "'+row['description']+'";\n')
     print('\t\t next-server 10.100.101.223;\n')
     print('\t\t filename "pxelinux.0";\n')
+    print('\t\t include "/dhcp/config/reservation.ip.'+network+'.conf";\n')
     print("\t}")
     print("}\n")
