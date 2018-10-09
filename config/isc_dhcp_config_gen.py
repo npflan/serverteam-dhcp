@@ -68,7 +68,7 @@ for row in reader:
     subnetmask = parts[1]
     print("subnet " + network + " netmask " + subnetmask + " {")
     print("\t pool {")
-    print("\t\t range " + str(ip[50]) + " " + str(ip[pow(2, (32-ip.prefixlen))-50]) + ";")
+    print("\t\t range " + str(ip[150]) + " " + str(ip[pow(2, (32-ip.prefixlen))-50]) + ";")
     print("\t\t option routers " + str(ip[1]) + ";")
     print('\t\t option domain-name "'+row['description']+'";\n')
     print('\t\t next-server 10.100.101.223;\n')
