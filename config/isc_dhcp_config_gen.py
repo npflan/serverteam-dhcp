@@ -54,6 +54,8 @@ print('subnet 10.101.4.0 netmask 255.255.255.0 {}')
 print('subnet 10.101.5.0 netmask 255.255.255.0 {}')
 print('subnet 10.101.6.0 netmask 255.255.255.0 {}')
 print('subnet 10.101.7.0 netmask 255.255.255.0 {}')
+print('subnet 10.101.8.0 netmask 255.255.255.0 {}')
+print('subnet 10.101.9.0 netmask 255.255.255.0 {}')
 print('subnet 10.100.128.0 netmask 255.255.192.0 {}')
 
 
