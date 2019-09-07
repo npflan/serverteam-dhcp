@@ -1,7 +1,7 @@
 FROM alpine:3.6 AS builder
 WORKDIR /usr/src/app
 
-RUN apk add --no-cache python3 ca-certificates
+RUN apk add --no-cache python3 ca-certificates && python3 -m pip install --upgrade pip
 
 COPY requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt

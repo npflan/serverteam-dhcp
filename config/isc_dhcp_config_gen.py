@@ -8,11 +8,17 @@ import io
 netbox = 'https://netbox.minserver.dk/ipam/prefixes/?q=&within_include=&family=&mask_length=&vrf=npflan&status=1&role=server-net-dhcp&export'
 data = urllib.request.urlopen(netbox).read()
 
+netbox2 = 'https://netbox.minserver.dk/ipam/prefixes/?q=&within_include=&family=&mask_length=&vrf=npflan&status=1&role=management-server&export'
+data2 = urllib.request.urlopen(netbox2).read()
+
+
 datafile = os.path.join(os.path.dirname(__file__), 'data.csv')
 with open(datafile, 'wb+') as f:
     f.write(data)
+    f.write(data2)
 
 reader = csv.DictReader(io.StringIO(data.decode()), delimiter=',', quotechar='|')
+reader2 = csv.DictReader(io.StringIO(data2.decode()), delimiter=',', quotechar='|')
 
 print('default-lease-time 7200;\n')
 print('max-lease-time 28800;\n')
@@ -76,5 +82,23 @@ for row in reader:
     print('\t\t next-server 10.100.101.223;\n')
     print('\t\t filename "pxelinux.0";\n')
     print('\t\t include "/dhcp/config/reservation.ip.'+network+'.conf";\n')
+    print("\t}")
+    print("}\n")
+
+for row in reader2:
+    print("# " + ' - '.join((n for n in (row['role'], row['description']) if n)))
+    try:
+        ip = ipaddress.IPv4Network(row['prefix'])
+    except ipaddress.AddressValueError:
+        print(row['prefix'] + " is not a valid ip",file=sys.stderr)
+    parts = ip.with_netmask.split('/')
+    network = parts[0]
+    subnetmask = parts[1]
+    print("subnet " + network + " netmask " + subnetmask + " {")
+    print("\t pool {")
+    print("\t\t range " + str(ip[150]) + " " + str(ip[pow(2, (32-ip.prefixlen))-50]) + ";")
+    print("\t\t option routers " + str(ip[1]) + ";")
+    print('\t\t next-server 10.100.101.223;\n')
+    print('\t\t filename "pxelinux.0";\n')
     print("\t}")
     print("}\n")

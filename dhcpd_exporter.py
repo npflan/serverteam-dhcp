@@ -17,11 +17,18 @@ class DhcpdCollector(object):
     def __init__(self, leasefile='/var/lib/dhcp/dhcpd.leases'):
         print(leasefile)
         netbox = 'https://netbox.minserver.dk/ipam/prefixes/?q=&within_include=&family=&mask_length=&vrf=npflan&status=1&role=server-net-dhcp&export'
+        netbox2 = 'https://netbox.minserver.dk/ipam/prefixes/?q=&within_include=&family=&mask_length=&vrf=npflan&status=1&role=management-server&export'
         data = urllib.request.urlopen(netbox).read()
+        data2 = urllib.request.urlopen(netbox2).read()
         reader = csv.reader(io.StringIO(data.decode()), delimiter=',', quotechar='|')
+        reader2 = csv.reader(io.StringIO(data.decode()), delimiter=',', quotechar='|')
         subnets = []
 
         for row in reader:
+            # Add networks to array
+            subnets.append(IPv4Network(row[0]))
+        
+        for row in reader2:
             # Add networks to array
             subnets.append(IPv4Network(row[0]))
         self.subnets = subnets

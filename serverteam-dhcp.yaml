@@ -16,8 +16,8 @@ items:
           app: serverteam-dhcp
       spec:
         containers:
-        - image: docker.io/npflan/serverteam-dhcp:latest
-          imagePullPolicy: Always
+        - image: docker.io/npflan/serverteam-dhcp:v20190824-2
+          imagePullPolicy: IfNotPresent
           name: serverteam-dhcp
           volumeMounts:
               - mountPath: /var/lib/dhcp
