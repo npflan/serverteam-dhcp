@@ -57,6 +57,10 @@ for row in reader:
             {
                 "name": "tftp-server-name",
                 "data": "10.100.101.223"
+            },
+            {
+             "name": "domain-name-servers",
+             "data": "10.101.128.10"
             }
         ]
     }
@@ -138,10 +142,18 @@ keaconfig = {
     "DhcpDdns":
     {
         "ip-address": "0.0.0.0",
-        "port": 53001,
+        "port": 53,
         "dns-server-timeout": 1000,
 
         "user-context": {"version": 1},
+
+        "loggers": [
+            {
+                "comment": "A logger",
+                "name": "kea-dhcp-ddns",
+                "severity": "info"
+            }
+        ],
 
         "control-socket":
         {
@@ -173,8 +185,7 @@ keaconfig = {
                     "dns-servers":
                     [
                         {
-                            "ip-address": "127.0.0.1",
-                            "port": 53001
+                            "ip-address": "10.101.128.128"
                         }
                     ]
                 },
@@ -183,8 +194,7 @@ keaconfig = {
                     "dns-servers":
                     [
                         {
-                            "ip-address": "127.0.0.1",
-                            "port": 53001
+                            "ip-address": "10.101.128.128"
                         }
                     ]
                 },
@@ -193,8 +203,7 @@ keaconfig = {
                     "dns-servers":
                     [
                         {
-                            "ip-address": "127.0.0.1",
-                            "port": 53001
+                            "ip-address": "10.101.128.128"
                         }
                     ]
                 },
@@ -203,8 +212,7 @@ keaconfig = {
                     "dns-servers":
                     [
                         {
-                            "ip-address": "127.0.0.1",
-                            "port": 53001
+                            "ip-address": "10.101.128.128"
                         }
                     ]
                 },
@@ -213,8 +221,7 @@ keaconfig = {
                     "dns-servers":
                     [
                         {
-                            "ip-address": "127.0.0.1",
-                            "port": 53001
+                            "ip-address": "10.101.128.128"
                         }
                     ]
                 },
@@ -223,8 +230,7 @@ keaconfig = {
                     "dns-servers":
                     [
                         {
-                            "ip-address": "127.0.0.1",
-                            "port": 53001
+                            "ip-address": "10.101.128.128"
                         }
                     ]
                 }
