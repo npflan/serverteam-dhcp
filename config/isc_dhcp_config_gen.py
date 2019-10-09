@@ -137,7 +137,7 @@ keaconfig = {
     },
     "DhcpDdns":
     {
-        "ip-address": "127.0.0.1",
+        "ip-address": "0.0.0.0",
         "port": 53001,
         "dns-server-timeout": 1000,
 
@@ -154,31 +154,13 @@ keaconfig = {
             "ddns-domains":
             [
                 {
-                    "name": "rack1.server.npf.",
-                    "dns-servers":
-                    [
-                        {
-                            "ip-address": "10.101.128.128"
-                        }
-                    ]
+                    "name": "rack1.server.npf."
                 },
                 {
-                    "name": "rack2.server.npf.",
-                    "dns-servers":
-                    [
-                        {
-                            "ip-address": "10.101.128.128"
-                        }
-                    ]
+                    "name": "rack2.server.npf."
                 },
                 {
-                    "name": "rack3.server.npf.",
-                    "dns-servers":
-                    [
-                        {
-                            "ip-address": "10.101.128.128"
-                        }
-                    ]
+                    "name": "rack3.server.npf."
                 }
             ]
         },
@@ -193,9 +175,6 @@ keaconfig = {
                         {
                             "ip-address": "127.0.0.1",
                             "port": 53001
-                        },
-                        {
-                            "ip-address": "10.101.128.10"
                         }
                     ]
                 },
@@ -206,9 +185,6 @@ keaconfig = {
                         {
                             "ip-address": "127.0.0.1",
                             "port": 53001
-                        },
-                        {
-                            "ip-address": "10.101.128.10"
                         }
                     ]
                 },
@@ -219,9 +195,36 @@ keaconfig = {
                         {
                             "ip-address": "127.0.0.1",
                             "port": 53001
-                        },
+                        }
+                    ]
+                },
+                {
+                    "name": "201.100.10.in-addr.arpa.",
+                    "dns-servers":
+                    [
                         {
-                            "ip-address": "10.101.128.10"
+                            "ip-address": "127.0.0.1",
+                            "port": 53001
+                        }
+                    ]
+                },
+                {
+                    "name": "202.100.10.in-addr.arpa.",
+                    "dns-servers":
+                    [
+                        {
+                            "ip-address": "127.0.0.1",
+                            "port": 53001
+                        }
+                    ]
+                },
+                {
+                    "name": "203.100.10.in-addr.arpa.",
+                    "dns-servers":
+                    [
+                        {
+                            "ip-address": "127.0.0.1",
+                            "port": 53001
                         }
                     ]
                 }
