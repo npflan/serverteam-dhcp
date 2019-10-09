@@ -1,0 +1,10 @@
+{
+    "reservation-mode": "out-of-pool",
+    "reservations": [
+        {
+            "ip-address": "10.100.201.25",
+            "hw-address": "2c:76:8a:ac:49:1a",
+            "hostname": "pr01-management"
+        }
+    ]
+}

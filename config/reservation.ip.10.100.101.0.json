@@ -1,0 +1,145 @@
+{
+    "reservation-mode": "out-of-pool",
+    "reservations": [
+        {
+            "ip-address": "10.100.101.50",
+            "hw-address": "3c:d9:2b:f8:f3:28",
+            "hostname": "ip-101-50"
+        },
+        {
+            "ip-address": "10.100.101.51",
+            "hw-address": "68:b5:99:b8:bf:f8",
+            "hostname": "ip-101-51"
+        },
+        {
+            "ip-address": "10.100.101.52",
+            "hw-address": "18:a9:05:46:22:08",
+            "hostname": "ip-101-52"
+        },
+        {
+            "ip-address": "10.100.101.53",
+            "hw-address": "d8:d3:85:bf:32:40",
+            "hostname": "ip-101-53"
+        },
+        {
+            "ip-address": "10.100.101.58",
+            "hw-address": "d4:85:64:58:71:48",
+            "hostname": "ip-101-58"
+        },
+        {
+            "ip-address": "10.100.101.59",
+            "hw-address": "78:e7:d1:64:04:58",
+            "hostname": "ip-101-59"
+        },
+        {
+            "ip-address": "10.100.101.63",
+            "hw-address": "6c:3b:e5:ac:5d:d0",
+            "hostname": "ip-101-63"
+        },
+        {
+            "ip-address": "10.100.101.65",
+            "hw-address": "f4:ce:46:89:9f:f0",
+            "hostname": "ip-101-65"
+        },
+        {
+            "ip-address": "10.100.101.66",
+            "hw-address": "e4:11:5b:d7:81:48",
+            "hostname": "ip-101-66"
+        },
+        {
+            "ip-address": "10.100.101.74",
+            "hw-address": "6c:3b:e5:b6:63:90",
+            "hostname": "ip-101-74"
+        },
+        {
+            "ip-address": "10.100.101.76",
+            "hw-address": "e4:11:5b:d7:61:80",
+            "hostname": "ip-101-76"
+        },
+        {
+            "ip-address": "10.100.101.77",
+            "hw-address": "68:b5:99:ba:fb:60",
+            "hostname": "ip-101-77"
+        },
+        {
+            "ip-address": "10.100.101.78",
+            "hw-address": "3c:4a:92:ed:64:a0",
+            "hostname": "ip-101-78"
+        },
+        {
+            "ip-address": "10.100.101.79",
+            "hw-address": "68:b5:99:b3:a1:f8",
+            "hostname": "ip-101-79"
+        },
+        {
+            "ip-address": "10.100.101.80",
+            "hw-address": "9c:8e:99:23:8f:60",
+            "hostname": "ip-101-80"
+        },
+        {
+            "ip-address": "10.100.101.81",
+            "hw-address": "d8:d3:85:b6:2c:70",
+            "hostname": "ip-101-81"
+        },
+        {
+            "ip-address": "10.100.101.82",
+            "hw-address": "78:e7:d1:57:b6:88",
+            "hostname": "ip-101-82"
+        },
+        {
+            "ip-address": "10.100.101.83",
+            "hw-address": "d4:85:64:55:9c:28",
+            "hostname": "ip-101-83"
+        },
+        {
+            "ip-address": "10.100.101.84",
+            "hw-address": "d4:85:64:55:db:30",
+            "hostname": "ip-101-84"
+        },
+        {
+            "ip-address": "10.100.101.85",
+            "hw-address": "d4:85:64:55:fc:50",
+            "hostname": "ip-101-85"
+        },
+        {
+            "ip-address": "10.100.101.88",
+            "hw-address": "00:25:b3:a5:6d:70",
+            "hostname": "ip-101-88"
+        },
+        {
+            "ip-address": "10.100.101.89",
+            "hw-address": "d8:d3:85:b0:d9:de",
+            "hostname": "ip-101-89"
+        },
+        {
+            "ip-address": "10.100.101.90",
+            "hw-address": "d8:d3:85:b0:d5:e2",
+            "hostname": "ip-101-90"
+        },
+        {
+            "ip-address": "10.100.101.91",
+            "hw-address": "b4:99:ba:a4:6d:b4",
+            "hostname": "ip-101-91"
+        },
+        {
+            "ip-address": "10.100.101.92",
+            "hw-address": "d8:d3:85:b0:da:60",
+            "hostname": "ip-101-92"
+        },
+        {
+            "ip-address": "10.100.101.93",
+            "hw-address": "e8:39:35:aa:04:a8",
+            "hostname": "ip-101-93"
+        },
+        {
+            "ip-address": "10.100.101.94",
+            "hw-address": "44:1e:a1:4f:6f:60",
+            "hostname": "ip-101-94"
+        },
+        {
+            "ip-address": "10.100.101.25",
+            "hw-address": "2c:76:8a:ac:49:16",
+            "hostname": "pr01"
+        }
+    ]
+}

@@ -1,0 +1,73 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: dhcp
+  namespace: dhcp
+spec:
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9405"
+      labels:
+        app: dhcp
+    spec:
+      containers:
+      - name: dhcpd
+        imagePullPolicy: Always
+        image: npflan/serverteam-dhcp:kea
+        command: ["/usr/local/sbin/kea-dhcp4"]
+        args: ["-c", "/etc/kea/kea-dhcp4.conf"]
+        env:
+        - name: KEA_PIDFILE_DIR
+          value: "/kea/run"
+        volumeMounts:
+          - mountPath: /kea/socket
+            name: socket
+          - mountPath: /kea/run
+            name: run
+        resources:
+          limits:
+            memory: 256M
+      - name: dhcpd-control
+        imagePullPolicy: Always
+        image: npflan/serverteam-dhcp:kea
+        command: ["/usr/local/sbin/kea-ctrl-agent"]
+        args: ["-c", "/etc/kea/kea-ctrl-agent.conf"]
+        volumeMounts:
+          - mountPath: /kea/socket
+            name: socket
+        resources:
+          limits:
+            memory: 256M
+      - name: dhcpd-exporter
+        imagePullPolicy: IfNotPresent
+        image: npflan/kea-exporter:golang
+        resources:
+          limits:
+            memory: 32M
+      volumes:
+        - name: socket
+          emptyDir: {}
+        - name: run
+          emptyDir: {}
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: dhcp
+  namespace: dhcp
+spec:
+  clusterIP: 10.101.128.127
+  selector:
+    app: dhcp
+  ports:
+    - name: dhcp
+      protocol: UDP
+      port: 67
+      targetPort: 67
+    - name: control
+      protocol: TCP
+      port: 8080
+      targetPort: 8080

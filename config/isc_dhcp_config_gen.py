@@ -4,6 +4,9 @@ import sys
 import os
 import urllib.request
 import io
+import json
+
+subnet4 = []
 
 netbox = 'https://netbox.minserver.dk/ipam/prefixes/?q=&within_include=&family=&mask_length=&vrf=npflan&status=1&role=server-net-dhcp&export'
 data = urllib.request.urlopen(netbox).read()
@@ -17,88 +20,214 @@ with open(datafile, 'wb+') as f:
     f.write(data)
     f.write(data2)
 
-reader = csv.DictReader(io.StringIO(data.decode()), delimiter=',', quotechar='|')
-reader2 = csv.DictReader(io.StringIO(data2.decode()), delimiter=',', quotechar='|')
-
-print('default-lease-time 7200;\n')
-print('max-lease-time 28800;\n')
-print('authoritative;\n')
-
-print('allow booting;\n')
-
-print('option domain-name "server.npf";\n')
-print('option domain-name-servers 10.101.128.128;\n')
-
-
-print('ddns-updates on;\n')
-print('ddns-update-style interim;\n')
-
-print('''
-zone rack1.server.npf. {
-  primary 10.101.128.128;
-}
-zone rack2.server.npf. {
-  primary 10.101.128.128;
-}
-zone rack3.server.npf. {
-  primary 10.101.128.128;
-}
-zone 101.100.10.in-addr.arpa. {
-  primary 10.101.128.128;
-}
-zone 102.100.10.in-addr.arpa. {
-  primary 10.101.128.128;
-}
-zone 103.100.10.in-addr.arpa. {
-  primary 10.101.128.128;
-}
-''')
-print('subnet 10.101.1.0 netmask 255.255.255.0 {}')
-print('subnet 10.101.2.0 netmask 255.255.255.0 {}')
-print('subnet 10.101.3.0 netmask 255.255.255.0 {}')
-print('subnet 10.101.4.0 netmask 255.255.255.0 {}')
-print('subnet 10.101.5.0 netmask 255.255.255.0 {}')
-print('subnet 10.101.6.0 netmask 255.255.255.0 {}')
-print('subnet 10.101.7.0 netmask 255.255.255.0 {}')
-print('subnet 10.101.8.0 netmask 255.255.255.0 {}')
-print('subnet 10.101.9.0 netmask 255.255.255.0 {}')
-print('subnet 10.100.128.0 netmask 255.255.192.0 {}')
-
+reader = csv.DictReader(io.StringIO(data.decode()),
+                        delimiter=',', quotechar='|')
+reader2 = csv.DictReader(io.StringIO(data2.decode()),
+                         delimiter=',', quotechar='|')
 
 for row in reader:
-    print("# " + ' - '.join((n for n in (row['role'], row['description']) if n)))
     try:
         ip = ipaddress.IPv4Network(row['prefix'])
     except ipaddress.AddressValueError:
-        print(row['prefix'] + " is not a valid ip",file=sys.stderr)
+        print(row['prefix'] + " is not a valid ip", file=sys.stderr)
     parts = ip.with_netmask.split('/')
     network = parts[0]
     subnetmask = parts[1]
-    print("subnet " + network + " netmask " + subnetmask + " {")
-    print("\t pool {")
-    print("\t\t range " + str(ip[150]) + " " + str(ip[pow(2, (32-ip.prefixlen))-50]) + ";")
-    print("\t\t option routers " + str(ip[1]) + ";")
-    print('\t\t option domain-name "'+row['description']+'";\n')
-    print('\t\t next-server 10.100.101.223;\n')
-    print('\t\t filename "pxelinux.0";\n')
-    print('\t\t include "/dhcp/config/reservation.ip.'+network+'.conf";\n')
-    print("\t}")
-    print("}\n")
+
+    subnet = {
+        "subnet": network+"/"+str(ip.prefixlen),
+        "pools": [
+            {
+                "pool": str(ip[150])+"-"+str(ip[pow(2, (32-ip.prefixlen))-56])
+            }
+        ],
+        "option-data": [
+            {
+                "name": "routers",
+                "data": str(ip[1])
+            },
+            {
+                "name": "boot-file-name",
+                "data": "pxelinux.0"
+            },
+            {
+                "name": "domain-name",
+                "data": row['description']
+            },
+            {
+                "name": "tftp-server-name",
+                "data": "10.100.101.223"
+            }
+        ]
+    }
+
+    reservations_file = './reservation.ip.'+network+'.json'
+    if os.path.isfile(reservations_file):
+        with open(reservations_file,encoding='utf-8') as json_data:
+            reservations = json.load(json_data)
+            subnet["reservations"] = reservations["reservations"]
+
+    subnet4.append(subnet)
 
 for row in reader2:
-    print("# " + ' - '.join((n for n in (row['role'], row['description']) if n)))
     try:
         ip = ipaddress.IPv4Network(row['prefix'])
     except ipaddress.AddressValueError:
-        print(row['prefix'] + " is not a valid ip",file=sys.stderr)
+        print(row['prefix'] + " is not a valid ip", file=sys.stderr)
     parts = ip.with_netmask.split('/')
     network = parts[0]
     subnetmask = parts[1]
-    print("subnet " + network + " netmask " + subnetmask + " {")
-    print("\t pool {")
-    print("\t\t range " + str(ip[150]) + " " + str(ip[pow(2, (32-ip.prefixlen))-50]) + ";")
-    print("\t\t option routers " + str(ip[1]) + ";")
-    print('\t\t next-server 10.100.101.223;\n')
-    print('\t\t filename "pxelinux.0";\n')
-    print("\t}")
-    print("}\n")
+
+
+
+
+    subnet = {
+        "subnet": network+"/"+str(ip.prefixlen),
+        "pools": [
+            {
+                "pool": str(ip[150])+"-"+str(ip[pow(2, (32-ip.prefixlen))-56])
+            }
+        ],
+        "option-data": [
+            {
+                "name": "routers",
+                "data": str(ip[1])
+            },
+            {
+                "name": "boot-file-name",
+                "data": "pxelinux.0"
+            },
+            {
+                "name": "domain-name",
+                "data": row['description']
+            }
+        ]
+    }
+
+    reservations_file = './reservation.ip.'+network+'.json'
+    if os.path.isfile(reservations_file):
+        with open(reservations_file,encoding='utf-8') as json_data:
+            reservations = json.load(json_data)
+            subnet["reservations"] = reservations["reservations"]
+
+    subnet4.append(subnet)
+
+keaconfig = {
+    "Dhcp4": {
+        "dhcp-ddns": {
+             "enable-updates": True,
+             "qualifying-suffix": "server.npf"
+        },
+        "interfaces-config": {
+            "interfaces": [ "*" ]
+        },
+        "valid-lifetime": 4000,
+        "renew-timer": 1000,
+        "rebind-timer": 2000,
+        "subnet4": subnet4,
+        "lease-database": {
+            "type": "memfile",
+            "name": "leases4"
+        },
+        "control-socket":
+        {
+            "socket-type": "unix",
+            "socket-name": "/kea/socket/socket-v4"
+        }
+    },
+    "DhcpDdns":
+    {
+        "ip-address": "127.0.0.1",
+        "port": 53001,
+        "dns-server-timeout": 1000,
+
+        "user-context": {"version": 1},
+
+        "control-socket":
+        {
+            "socket-type": "unix",
+            "socket-name": "/kea/socket/socket-d2"
+        },
+
+        "forward-ddns":
+        {
+            "ddns-domains":
+            [
+                {
+                    "name": "rack1.server.npf.",
+                    "dns-servers":
+                    [
+                        {
+                            "ip-address": "10.101.128.128"
+                        }
+                    ]
+                },
+                {
+                    "name": "rack2.server.npf.",
+                    "dns-servers":
+                    [
+                        {
+                            "ip-address": "10.101.128.128"
+                        }
+                    ]
+                },
+                {
+                    "name": "rack3.server.npf.",
+                    "dns-servers":
+                    [
+                        {
+                            "ip-address": "10.101.128.128"
+                        }
+                    ]
+                }
+            ]
+        },
+        "reverse-ddns":
+        {
+            "ddns-domains":
+            [
+                {
+                    "name": "101.100.10.in-addr.arpa.",
+                    "dns-servers":
+                    [
+                        {
+                            "ip-address": "127.0.0.1",
+                            "port": 53001
+                        },
+                        {
+                            "ip-address": "10.101.128.10"
+                        }
+                    ]
+                },
+                {
+                    "name": "102.100.10.in-addr.arpa.",
+                    "dns-servers":
+                    [
+                        {
+                            "ip-address": "127.0.0.1",
+                            "port": 53001
+                        },
+                        {
+                            "ip-address": "10.101.128.10"
+                        }
+                    ]
+                },
+                {
+                    "name": "103.100.10.in-addr.arpa.",
+                    "dns-servers":
+                    [
+                        {
+                            "ip-address": "127.0.0.1",
+                            "port": 53001
+                        },
+                        {
+                            "ip-address": "10.101.128.10"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
+
+print(json.dumps(keaconfig, sort_keys=True, indent=4, separators=(',', ': ')))
