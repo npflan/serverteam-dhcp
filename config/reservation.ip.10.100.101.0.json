@@ -137,6 +137,16 @@
             "hostname": "ip-101-94"
         },
         {
+            "ip-address": "10.100.101.49",
+            "hw-address": "c4:34:6b:c8:4e:a0",
+            "hostname": "minecraft-ffa"
+        },
+        {
+            "ip-address": "10.100.101.101",
+            "hw-address": "c4:34:6b:af:f8:f8",
+            "hostname": "spaceengineers-ffa"
+        },
+        {
             "ip-address": "10.100.101.25",
             "hw-address": "2c:76:8a:ac:49:16",
             "hostname": "pr01"

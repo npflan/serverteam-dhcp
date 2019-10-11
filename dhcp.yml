@@ -26,7 +26,7 @@ spec:
       containers:
       - name: dhcpd
         imagePullPolicy: IfNotPresent
-        image: npflan/serverteam-dhcp:kea-v2
+        image: npflan/serverteam-dhcp:kea-v5
         command: ["/usr/local/sbin/kea-dhcp4"]
         args: ["-c", "/etc/kea/kea-dhcp4.conf"]
         env:
@@ -42,7 +42,7 @@ spec:
             memory: 256M
       - name: dhcpd-control
         imagePullPolicy: IfNotPresent
-        image: npflan/serverteam-dhcp:kea-v3
+        image: npflan/serverteam-dhcp:kea-v5
         command: ["/usr/local/sbin/kea-ctrl-agent"]
         args: ["-c", "/etc/kea/kea-ctrl-agent.conf"]
         volumeMounts:
