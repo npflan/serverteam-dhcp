@@ -72,11 +72,6 @@
             "hostname": "ip-102-71"
         },
         {
-            "ip-address": "10.100.102.72",
-            "hw-address": "e8:39:35:aa:04:a8",
-            "hostname": "ip-102-72"
-        },
-        {
             "ip-address": "10.100.102.73",
             "hw-address": "d4:85:64:57:4a:e8",
             "hostname": "ip-102-73"
